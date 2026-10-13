@@ -1,0 +1,8 @@
+{
+ "version": 1,
+ "alg": "x25519-hkdf-sha256-aes256gcm",
+ "key_version": 1,
+ "epk": "8Kqbln1a5AMgGsoxw6fYxcAH2lYxO2yfduwjMKevWRI=",
+ "nonce": "7Y+IO8x5ZubfIbfM",
+ "ciphertext": "ps1MnKhC6OSFqmeeJbF3li+pO1rA9I297GxlsxKlBR2zNv25iV08hKIXuHC/Hy+GoAsiFzFXb1VBVxMyqz3IOb8WM3pMpzfCZ4sgYnb8r1xlMs9opYM="
+}

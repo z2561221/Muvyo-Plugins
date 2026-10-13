@@ -18,27 +18,27 @@
  },
  "payload": {
   "plugin_id": "z2561221.kurisu-mascot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "files": {
    "README.md": "9af4da8afa0ad1163a014be2dfc0e115e93f07c0acf2a9527f8b8a889015ca77",
-   "encrypted.json": "bdd695c79aca6b980f48876a3083a4b2080f0beec1d07710cc0d7bbcc27d53af",
+   "encrypted.json": "6e239343bac6195ed8849e47c757938d20899431bedd1d66dbd870c7d2abeab7",
    "icon.png": "36d1f13760d7ee07a0674a49af91f9a397e485d2ef27d2dad61525171e4982bb",
-   "manifest.json": "ce31b1e9cb05c79f503395d6b03023871ee0d8ecb83e67282dede89d3b7cdc4c",
-   "mascot-crouch.webp": "8088e211874694821fa356643ea695473935e175cd29678416ac9abbaaa24c0e",
-   "mascot-idle.webp": "6dba02760c30dd494d1530bc4f799afa4b5c03b69626d189dd99823436275441",
-   "mascot-idle_blink.webp": "2bdd0b04aed6d3f0eb53077776c58f93934cfb353cea310a537a292f00f087a8",
-   "mascot-idle_talk.webp": "a988fc80280353d55a1047503051462ed95a23fdd9421607491c669945c38084",
-   "mascot-jump.webp": "0060191e1b2af29a740cc42911d483df9e729b5d75930227881502ebd57ad704",
-   "mascot-look_left.webp": "e7e556f480852ec94ee593abd4556c06a368847aa3e0e6d31dcdc5df608b93a2",
-   "mascot-look_right.webp": "6f1b41508a80a566aa4173a93ce59c2d334343bfd1f53954462a40f5ffa01cdb",
-   "mascot-look_upleft.webp": "5e9791b7bb9277ef0eaf91ac7d6dfe0d8f875bebc36060cdc680adef80fc4077",
-   "mascot-point_left.webp": "1c92e39748a0c1dc9b4c52857890b7f121367ab32b30aacbe7ae41e721a9226b",
-   "mascot-popcorn.webp": "6a2ac03a5544d7beba5088010e37b0ccb1d12f73f17929dc151142b6f1ac5ffe",
-   "mascot-sitsmile.webp": "b8a3de8e8a8c82dab2c800ff8c4f6a4296b3c6451a6534c75d209fe66165c526",
-   "mascot-thumbs.webp": "fda10177f66859e5c177838d137f4ccc9fe12ee7bbfbab11fc54336465e4ef2f",
-   "mascot-waveA.webp": "227da4bd2ceccadfafcc2115d35edb656a1e1108c1c8f4c18c81104ba7506bd6",
-   "mascot-waveB.webp": "47efd195fe6cdc79fddf1a23e873205c2f22d9b4276d2a059dd5fce66149b3bc"
+   "manifest.json": "0619e2f6bda540bb1fb5dfa223a7e53ac824c7e58119d84fc43b0d12792807a3",
+   "mascot-crouch.webp": "c4e2a758c9d9d4071d752a77049d1c35dc5f9269e6b438a4a40e247570e33e80",
+   "mascot-idle.webp": "fa7acfef2cf7c47b84514b2630e36fd8ca081527389c868856740ba7477eb87f",
+   "mascot-idle_blink.webp": "c27e9aeab46b0387ad73e5386a39eac3545afd9cd1607a831a4a5c64ded5887d",
+   "mascot-idle_talk.webp": "a2baabf8522191ac25b001f9faff0dc835346e693d1fd59500c0699a41cfeccc",
+   "mascot-jump.webp": "0849ec6ecfc774b32cd1acdcf9c4a394d552bd9fac3af0ebc680d1ba5982f622",
+   "mascot-look_left.webp": "d7df518ee0d33c7c6ff322b3e8a8cb6988dc3a5923a36fa7b34914802bf958fe",
+   "mascot-look_right.webp": "c151b090bcf045c97c878b2290bbb2460ee64eec12cf319613107dd7c545d4a4",
+   "mascot-look_upleft.webp": "e449dd9d0b72bf8ab9a9841f4d6eac5d83f9ce4eac1c2f3d986d7d2676630151",
+   "mascot-point_left.webp": "84df8e81139b4393c71f9ea2cd64d41363e3c7928bf7f1ee3c0bcd6d44f5de50",
+   "mascot-popcorn.webp": "90c4b02f122587580ac5b0606917e44ff88c7ffd422537d5843ca697135e0d9f",
+   "mascot-sitsmile.webp": "db1c2e8bdbacb92735da35b83daf91d12858d73bd9951baa0b6cd4694da0ec2e",
+   "mascot-thumbs.webp": "13c1dfbc0fd0456a789bc2f1c90dc8524b7f7e30a256661b63f2edcd3b6b56b3",
+   "mascot-waveA.webp": "7a634cf4d3b7a41631611ba8ad218a07774dbac07078a7bbcc765ffacc5ddd76",
+   "mascot-waveB.webp": "8263e0490829b4429c61be820bc9779f3acf417a66fd7248f024393bc8f05d27"
   }
  },
- "signature": "JOd/fLkUuGOmpgS6T6rmw8+a81XUcId8a1Htf2jwIO2CPKsYxmBGVL6PUgCF2OEopn0GszVzRe91vAYnzeOfBw=="
+ "signature": "XVHtIGWGWSltxxFFKD4PyGJOGYcxDdD44pmxcmBGHGxbWmfW6pVPT3vZsPscZafYgtO0YZ4jsUIHYsN8k46dAA=="
 }

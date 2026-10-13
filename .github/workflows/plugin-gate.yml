@@ -32,7 +32,15 @@ jobs:
           cache: pip
           cache-dependency-path: .github/requirements.txt
       - run: python -m pip install -r .github/requirements.txt
+      - name: Fetch pinned official Muvyo verifier
+        run: |
+          curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/thsrite/muvyo-addon-guide/dbf96b5ce1aba87fe73440091b4d513b9ccc4fae/mv_addon.py \
+            --output "$RUNNER_TEMP/mv_addon.py"
+          echo "ae0187203f68fb2e97b9ebbaf3d7f19f4e879a5a9ef5841ef953aa52f7fbb4de  $RUNNER_TEMP/mv_addon.py" | sha256sum --check -
       - name: Verify repository signature and official signed packages
+        env:
+          MV_ADDON_VERIFIER: ${{ runner.temp }}/mv_addon.py
         run: python .github/scripts/check_plugins.py --verify
-      - name: Test version, signature and immutable release failures
+      - name: Test version, signature and withdrawal failures
         run: python -m unittest discover -s tests -v

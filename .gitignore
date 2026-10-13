@@ -1,6 +1,8 @@
 __pycache__/
 *.pyc
+src/
 private/
 *.pem
 *.key
 muvyo-signing.json
+mv_addon.py

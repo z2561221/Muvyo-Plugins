@@ -2,12 +2,13 @@
 import argparse
 import base64
 import hashlib
+import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
 from pathlib import Path
-from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[2]
 REPO_KEY = "OrE/bKpRWyYs0JBSjCz1WVZp8YCt3KQuxqd6K2GPfK4="
@@ -69,15 +70,21 @@ def validate_package(entry, folder):
     return manifest
 
 
-def validate_transition(current, previous, changed_ids, index_changed):
+def validate_transition(current, previous, changed_ids, index_changed, branch, retired):
     require(current["public_key"] == previous["public_key"] == REPO_KEY, "Repository signing identity changed")
     require(current["sequence"] >= previous["sequence"], "Index sequence must never decrease")
     if index_changed or changed_ids:
         require(current["sequence"] > previous["sequence"], "Changed index/packages require a newer signed sequence")
     old = {p["id"]: p for p in previous["plugins"]}
     new = {p["id"]: p for p in current["plugins"]}
-    require(set(old) <= set(new), "Removing an existing plugin requires a separate reviewed retirement policy")
-    for plugin_id in changed_ids & set(old):
+    removed = set(old) - set(new)
+    require(removed <= set(retired), "Removing an existing plugin requires a reviewed retirement record")
+    for plugin_id in removed:
+        policy = retired[plugin_id]
+        require(branch == policy["branch"], f"Plugin withdrawal must use {policy['branch']}: {plugin_id}")
+        require(policy["withdrawn_sequence"] == current["sequence"],
+                f"Plugin withdrawal must advance the signed index sequence: {plugin_id}")
+    for plugin_id in changed_ids & set(old) & set(new):
         require(version(new[plugin_id]["version"]) > version(old[plugin_id]["version"]),
                 f"Changed package must increment its version: {plugin_id}")
     for plugin_id in set(old) & set(new) - changed_ids:
@@ -94,19 +101,40 @@ def verify_index(data, signature):
     key.verify(base64.b64decode(signature.strip(), validate=True), data)
 
 
+def verify_official_packages(root, index):
+    verifier = Path(os.environ.get("MV_ADDON_VERIFIER", ""))
+    require(verifier.is_file(), "Fetch the pinned official mv_addon.py into a temporary CI path")
+    require(hashlib.sha256(verifier.read_bytes()).hexdigest() == OFFICIAL_SHA256,
+            "Official verifier is not the pinned Muvyo version")
+    spec = importlib.util.spec_from_file_location("muvyo_official_verifier", verifier)
+    require(spec is not None and spec.loader is not None, "Cannot load the official Muvyo verifier")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    for entry in index["plugins"]:
+        module.verify(type("Package", (), {"folder": str(root / entry["path"])})())
+
+
 def check(root=ROOT, base=None, branch=None, verify=False):
     index = load(root / "index.json")
     require(index["public_key"] == REPO_KEY, "Unexpected repository public key")
     require(type(index["sequence"]) is int and index["sequence"] > 0, "Invalid index sequence")
     catalog = load(root / ".github/plugin-catalog.json")
+    retired = load(root / ".github/retired-plugins.json")
     ids = [entry["id"] for entry in index["plugins"]]
     require(len(ids) == len(set(ids)) and set(ids) == set(catalog), "Duplicate or unmapped plugin IDs")
     for plugin_id, policy in catalog.items():
         require(re.fullmatch(r"z2561221\.[a-z0-9]+(?:-[a-z0-9]+)*", plugin_id), "Unsafe plugin ID")
         require(re.fullmatch(r"worldlinefix/[a-z0-9]+(?:-[a-z0-9]+)*", policy["branch"]), "Invalid business branch")
-        require(re.fullmatch(r"[A-Z][A-Za-z0-9]*", policy["release_name"]), "Invalid release name")
     require(len({p["branch"] for p in catalog.values()}) == len(catalog), "Duplicate business branch")
-    require(len({p["release_name"].lower() for p in catalog.values()}) == len(catalog), "Duplicate release name")
+    require(not (set(retired) & set(catalog)), "A plugin cannot be both active and withdrawn")
+    for plugin_id, policy in retired.items():
+        require(re.fullmatch(r"z2561221\.[a-z0-9]+(?:-[a-z0-9]+)*", plugin_id), "Unsafe retired plugin ID")
+        require(re.fullmatch(r"worldlinefix/[a-z0-9]+(?:-[a-z0-9]+)*", policy["branch"]),
+                "Invalid withdrawal branch")
+        require(type(policy["withdrawn_sequence"]) is int and policy["withdrawn_sequence"] <= index["sequence"],
+                "Invalid withdrawal sequence")
+    branches = [p["branch"] for p in catalog.values()] + [p["branch"] for p in retired.values()]
+    require(len(branches) == len(set(branches)), "Duplicate active or retired business branch")
     require({p.name for p in (root / "plugins").iterdir()} == set(ids), "Unindexed package directory")
     for entry in index["plugins"]:
         validate_package(entry, root / entry["path"])
@@ -120,22 +148,18 @@ def check(root=ROOT, base=None, branch=None, verify=False):
         previous = json.loads(git("show", f"{base}:index.json", root=root))
         paths = git("diff", "--name-only", base, "HEAD", root=root).splitlines()
         changed = {p.split("/")[1] for p in paths if p.startswith("plugins/")}
-        validate_transition(index, previous, changed, "index.json" in paths)
+        validate_transition(index, previous, changed, "index.json" in paths, branch, retired)
         require(branch is not None, "PR branch name is required")
         if branch == "worldlinefix/release-workflow":
             require(not changed and not {"index.json", "index.json.sig"}.intersection(paths),
                     "Infrastructure branch may not change signed plugin packages/index")
         else:
             permitted = {pid for pid, policy in catalog.items() if policy["branch"] == branch}
+            permitted.update(pid for pid, policy in retired.items() if policy["branch"] == branch)
             require(bool(permitted) and changed <= permitted, "Use the target plugin's fixed worldlinefix branch")
     if verify:
         verify_index((root / "index.json").read_bytes(), (root / "index.json.sig").read_bytes())
-        vendor = root / ".github/vendor/mv_addon.py"
-        require(hashlib.sha256(vendor.read_bytes()).hexdigest() == OFFICIAL_SHA256, "Official verifier was modified")
-        sys.path.insert(0, str(vendor.parent))
-        import mv_addon
-        for entry in index["plugins"]:
-            mv_addon.verify(SimpleNamespace(folder=str(root / entry["path"])))
+        verify_official_packages(root, index)
     print(f"Repository gate passed: {len(ids)} plugins, sequence {index['sequence']}")
     return index, catalog
 

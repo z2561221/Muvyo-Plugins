@@ -1,0 +1,16 @@
+{
+  "name": "未来道具研究所 · Muvyo",
+  "sequence": 1,
+  "plugins": [
+    {
+      "id": "z2561221.kurisu-mascot",
+      "name": "克里斯蒂娜 · Kurisu",
+      "version": "1.0.0",
+      "description": "使用本机 Codex Pet 的 Kurisu 原图替换慕慕名称与立绘，提供 14 个动作槽位，不联网。",
+      "author": "Kurisu",
+      "path": "plugins/z2561221.kurisu-mascot",
+      "api": 1
+    }
+  ],
+  "public_key": "OrE/bKpRWyYs0JBSjCz1WVZp8YCt3KQuxqd6K2GPfK4="
+}

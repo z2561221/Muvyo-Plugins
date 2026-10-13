@@ -1,0 +1,35 @@
+{
+  "api": 1,
+  "id": "z2561221.kurisu-mascot",
+  "name": "克里斯蒂娜 · Kurisu",
+  "version": "1.0.0",
+  "author": "Kurisu",
+  "description": "使用本机 Codex Pet 的 Kurisu 原图替换慕慕名称与立绘，提供 14 个动作槽位，不联网。",
+  "entry": "main.js",
+  "icon": "icon.png",
+  "min_mv_version": "3.11.1",
+  "permissions": {
+    "domains": []
+  },
+  "capabilities": {
+    "mascot": {
+      "name": "克里斯蒂娜",
+      "frames": {
+        "idle": "mascot-idle.webp",
+        "idle_blink": "mascot-idle_blink.webp",
+        "idle_talk": "mascot-idle_talk.webp",
+        "look_left": "mascot-look_left.webp",
+        "look_upleft": "mascot-look_upleft.webp",
+        "look_right": "mascot-look_right.webp",
+        "waveA": "mascot-waveA.webp",
+        "waveB": "mascot-waveB.webp",
+        "point_left": "mascot-point_left.webp",
+        "popcorn": "mascot-popcorn.webp",
+        "thumbs": "mascot-thumbs.webp",
+        "jump": "mascot-jump.webp",
+        "crouch": "mascot-crouch.webp",
+        "sitsmile": "mascot-sitsmile.webp"
+      }
+    }
+  }
+}

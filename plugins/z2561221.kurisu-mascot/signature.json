@@ -18,10 +18,10 @@
  },
  "payload": {
   "plugin_id": "z2561221.kurisu-mascot",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "files": {
-   "encrypted.json": "90df48d6c13fbbfa997b1966202c9cc1ea65bf3a9672d53cd100a9691c174c35",
-   "manifest.json": "f03d98ab794cb0efbeb827756485792a8693b5e032e0130e94b1f79bf611a7a7",
+   "encrypted.json": "52de8a2329871322927ff3251e4f262aef8e98779b7aceaed9a3933ecad57c09",
+   "manifest.json": "cac6450952c8e9218acd7e6726dcf30568c44e2c29ae5a9ecc254713d0e8772e",
    "mascot-crouch.webp": "c4e2a758c9d9d4071d752a77049d1c35dc5f9269e6b438a4a40e247570e33e80",
    "mascot-idle.webp": "fa7acfef2cf7c47b84514b2630e36fd8ca081527389c868856740ba7477eb87f",
    "mascot-idle_blink.webp": "c27e9aeab46b0387ad73e5386a39eac3545afd9cd1607a831a4a5c64ded5887d",
@@ -38,5 +38,5 @@
    "mascot-waveB.webp": "8263e0490829b4429c61be820bc9779f3acf417a66fd7248f024393bc8f05d27"
   }
  },
- "signature": "6p7bV57vIi0MkbijqrVGitAOFxCT5aayzgoL3bd6xfuuCSERX6SLjy0OkH5TuE6NRIZGwO3IPOiZPG27etsWAw=="
+ "signature": "euyR872XfMei8l7ybOGHgqT1kkmCm27uzX8oCbH3ftsU9ETvF+ZLgcxGx2MdzwCSfEsMniwcv4EKysISB3rzAg=="
 }

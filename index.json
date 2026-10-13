@@ -1,12 +1,12 @@
 {
  "name": "未来道具研究所 · Muvyo",
- "sequence": 4,
+ "sequence": 5,
  "plugins": [
   {
    "id": "z2561221.kurisu-mascot",
-   "name": "克里斯蒂娜 · Kurisu",
-   "version": "1.0.3",
-   "description": "克里斯蒂娜完整 14 动作版：复用 Kurisu 原图，不联网。",
+   "name": "克里斯蒂娜",
+   "version": "1.0.4",
+   "description": "牧濑红莉栖，天才神经科学少女，未来道具研究所成员。理性敏锐、嘴硬心软，陪你探索世界线。",
    "author": "Kurisu",
    "path": "plugins/z2561221.kurisu-mascot",
    "api": 1

@@ -1,12 +1,12 @@
 {
  "name": "未来道具研究所 · Muvyo",
- "sequence": 3,
+ "sequence": 4,
  "plugins": [
   {
    "id": "z2561221.kurisu-mascot",
    "name": "克里斯蒂娜 · Kurisu",
-   "version": "1.0.2",
-   "description": "克里斯蒂娜形象兼容版：待机与挥手两张立绘，其余动作按 Muvyo 官方规则回退；不联网。",
+   "version": "1.0.3",
+   "description": "克里斯蒂娜完整 14 动作版：复用 Kurisu 原图，不联网。",
    "author": "Kurisu",
    "path": "plugins/z2561221.kurisu-mascot",
    "api": 1

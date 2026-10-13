@@ -18,25 +18,13 @@
  },
  "payload": {
   "plugin_id": "z2561221.kurisu-mascot",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "files": {
-   "encrypted.json": "90df48d6c13fbbfa997b1966202c9cc1ea65bf3a9672d53cd100a9691c174c35",
-   "manifest.json": "f03d98ab794cb0efbeb827756485792a8693b5e032e0130e94b1f79bf611a7a7",
-   "mascot-crouch.webp": "c4e2a758c9d9d4071d752a77049d1c35dc5f9269e6b438a4a40e247570e33e80",
-   "mascot-idle.webp": "fa7acfef2cf7c47b84514b2630e36fd8ca081527389c868856740ba7477eb87f",
-   "mascot-idle_blink.webp": "c27e9aeab46b0387ad73e5386a39eac3545afd9cd1607a831a4a5c64ded5887d",
-   "mascot-idle_talk.webp": "a2baabf8522191ac25b001f9faff0dc835346e693d1fd59500c0699a41cfeccc",
-   "mascot-jump.webp": "0849ec6ecfc774b32cd1acdcf9c4a394d552bd9fac3af0ebc680d1ba5982f622",
-   "mascot-look_left.webp": "d7df518ee0d33c7c6ff322b3e8a8cb6988dc3a5923a36fa7b34914802bf958fe",
-   "mascot-look_right.webp": "c151b090bcf045c97c878b2290bbb2460ee64eec12cf319613107dd7c545d4a4",
-   "mascot-look_upleft.webp": "e449dd9d0b72bf8ab9a9841f4d6eac5d83f9ce4eac1c2f3d986d7d2676630151",
-   "mascot-point_left.webp": "84df8e81139b4393c71f9ea2cd64d41363e3c7928bf7f1ee3c0bcd6d44f5de50",
-   "mascot-popcorn.webp": "90c4b02f122587580ac5b0606917e44ff88c7ffd422537d5843ca697135e0d9f",
-   "mascot-sitsmile.webp": "db1c2e8bdbacb92735da35b83daf91d12858d73bd9951baa0b6cd4694da0ec2e",
-   "mascot-thumbs.webp": "13c1dfbc0fd0456a789bc2f1c90dc8524b7f7e30a256661b63f2edcd3b6b56b3",
-   "mascot-waveA.webp": "7a634cf4d3b7a41631611ba8ad218a07774dbac07078a7bbcc765ffacc5ddd76",
-   "mascot-waveB.webp": "8263e0490829b4429c61be820bc9779f3acf417a66fd7248f024393bc8f05d27"
+   "encrypted.json": "7b3483e193b656ef8fdd0f5414fc794d94b007fae15f082bce8d156e9bb69588",
+   "manifest.json": "b384fb94e3ab4909b866db31178f2321c547a905c8270c99f6287aae0dc77cc9",
+   "mascot-idle.webp": "6dba02760c30dd494d1530bc4f799afa4b5c03b69626d189dd99823436275441",
+   "mascot-waveA.webp": "227da4bd2ceccadfafcc2115d35edb656a1e1108c1c8f4c18c81104ba7506bd6"
   }
  },
- "signature": "6p7bV57vIi0MkbijqrVGitAOFxCT5aayzgoL3bd6xfuuCSERX6SLjy0OkH5TuE6NRIZGwO3IPOiZPG27etsWAw=="
+ "signature": "O7qPoR8T+ni8Ks/urdSYFAUdPbVqzvxSSzlCEU0UOhU/RVBn3oQOBIDtSCVIQHO9f5JN6CZTPZYnJ+gnxc7aCw=="
 }

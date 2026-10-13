@@ -1,10 +1,5 @@
 {
   "z2561221.kurisu-mascot": {
-    "branch": "worldlinefix/kurisu",
-    "release_name": "KurisuMascot"
-  },
-  "z2561221.roxy-mascot": {
-    "branch": "worldlinefix/roxy",
-    "release_name": "RoxyMascot"
+    "branch": "worldlinefix/kurisu"
   }
 }

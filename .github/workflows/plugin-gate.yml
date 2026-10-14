@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
-      - name: Check branch, versions and signed package layout
+      - name: Check PR source, versions and signed package layout
         env:
           PR_HEAD: ${{ github.head_ref }}
           PR_BASE: ${{ github.event.pull_request.base.sha }}

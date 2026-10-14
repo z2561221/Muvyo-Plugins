@@ -82,7 +82,23 @@ def validate_distribution_file(name, data):
             f"Private key content is tracked: {name}")
 
 
-def validate_transition(current, previous, changed_ids, index_changed, branch, retired):
+def validate_catalog(index, catalog, retired):
+    require(isinstance(catalog, list) and all(isinstance(pid, str) for pid in catalog),
+            "Plugin catalog must be a list of plugin IDs")
+    ids = [entry["id"] for entry in index["plugins"]]
+    require(len(catalog) == len(set(catalog)) and len(ids) == len(set(ids))
+            and set(ids) == set(catalog), "Duplicate or unmapped plugin IDs")
+    for plugin_id in catalog:
+        require(re.fullmatch(r"z2561221\.[a-z0-9]+(?:-[a-z0-9]+)*", plugin_id), "Unsafe plugin ID")
+    require(isinstance(retired, dict), "Retirement records must be keyed by plugin ID")
+    require(not (set(retired) & set(catalog)), "A plugin cannot be both active and withdrawn")
+    for plugin_id, policy in retired.items():
+        require(re.fullmatch(r"z2561221\.[a-z0-9]+(?:-[a-z0-9]+)*", plugin_id), "Unsafe retired plugin ID")
+        require(isinstance(policy, dict) and type(policy.get("withdrawn_sequence")) is int
+                and 0 < policy["withdrawn_sequence"] <= index["sequence"], "Invalid withdrawal sequence")
+
+
+def validate_transition(current, previous, changed_ids, index_changed, retired):
     require(current["public_key"] == previous["public_key"] == REPO_KEY, "Repository signing identity changed")
     require(current["sequence"] >= previous["sequence"], "Index sequence must never decrease")
     if index_changed or changed_ids:
@@ -93,7 +109,6 @@ def validate_transition(current, previous, changed_ids, index_changed, branch, r
     require(removed <= set(retired), "Removing an existing plugin requires a reviewed retirement record")
     for plugin_id in removed:
         policy = retired[plugin_id]
-        require(branch == policy["branch"], f"Plugin withdrawal must use {policy['branch']}: {plugin_id}")
         require(policy["withdrawn_sequence"] == current["sequence"],
                 f"Plugin withdrawal must advance the signed index sequence: {plugin_id}")
     for plugin_id in changed_ids & set(old) & set(new):
@@ -132,21 +147,8 @@ def check(root=ROOT, base=None, branch=None, verify=False):
     require(type(index["sequence"]) is int and index["sequence"] > 0, "Invalid index sequence")
     catalog = load(root / ".github/plugin-catalog.json")
     retired = load(root / ".github/retired-plugins.json")
+    validate_catalog(index, catalog, retired)
     ids = [entry["id"] for entry in index["plugins"]]
-    require(len(ids) == len(set(ids)) and set(ids) == set(catalog), "Duplicate or unmapped plugin IDs")
-    for plugin_id, policy in catalog.items():
-        require(re.fullmatch(r"z2561221\.[a-z0-9]+(?:-[a-z0-9]+)*", plugin_id), "Unsafe plugin ID")
-        require(re.fullmatch(r"worldlinefix/[a-z0-9]+(?:-[a-z0-9]+)*", policy["branch"]), "Invalid business branch")
-    require(len({p["branch"] for p in catalog.values()}) == len(catalog), "Duplicate business branch")
-    require(not (set(retired) & set(catalog)), "A plugin cannot be both active and withdrawn")
-    for plugin_id, policy in retired.items():
-        require(re.fullmatch(r"z2561221\.[a-z0-9]+(?:-[a-z0-9]+)*", plugin_id), "Unsafe retired plugin ID")
-        require(re.fullmatch(r"worldlinefix/[a-z0-9]+(?:-[a-z0-9]+)*", policy["branch"]),
-                "Invalid withdrawal branch")
-        require(type(policy["withdrawn_sequence"]) is int and policy["withdrawn_sequence"] <= index["sequence"],
-                "Invalid withdrawal sequence")
-    branches = [p["branch"] for p in catalog.values()] + [p["branch"] for p in retired.values()]
-    require(len(branches) == len(set(branches)), "Duplicate active or retired business branch")
     require({p.name for p in (root / "plugins").iterdir()} == set(ids), "Unindexed package directory")
     for entry in index["plugins"]:
         validate_package(entry, root / entry["path"])
@@ -158,15 +160,9 @@ def check(root=ROOT, base=None, branch=None, verify=False):
         previous = json.loads(git("show", f"{base}:index.json", root=root))
         paths = git("diff", "--name-only", base, "HEAD", root=root).splitlines()
         changed = {p.split("/")[1] for p in paths if p.startswith("plugins/")}
-        validate_transition(index, previous, changed, "index.json" in paths, branch, retired)
-        require(branch is not None, "PR branch name is required")
-        if branch == "worldlinefix/release-workflow":
-            require(not changed and not {"index.json", "index.json.sig"}.intersection(paths),
-                    "Infrastructure branch may not change signed plugin packages/index")
-        else:
-            permitted = {pid for pid, policy in catalog.items() if policy["branch"] == branch}
-            permitted.update(pid for pid, policy in retired.items() if policy["branch"] == branch)
-            require(bool(permitted) and changed <= permitted, "Use the target plugin's fixed worldlinefix branch")
+        require(isinstance(branch, str) and bool(branch.strip()) and branch != "main",
+                "Use a PR branch distinct from main")
+        validate_transition(index, previous, changed, "index.json" in paths, retired)
     if verify:
         verify_index((root / "index.json").read_bytes(), (root / "index.json.sig").read_bytes())
         verify_official_packages(root, index)

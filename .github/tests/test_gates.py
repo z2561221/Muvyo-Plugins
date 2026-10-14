@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / ".github/scripts"))
 from check_plugins import load, validate_package, validate_transition, verify_index
 from cryptography.exceptions import InvalidSignature

@@ -3,6 +3,19 @@
 插件内容遵循 Muvyo 官方发布格式。Git 分支、PR 检查和 main 保护沿用
 `z2561221/MoviePilot-Plugins` 的工作习惯；它们不改变 Muvyo 的签名安装流程。
 
+## 仓库目录
+
+| 位置 | 用途 |
+|---|---|
+| `plugins/`、`index.json`、`index.json.sig` | Muvyo 安装所需的签名索引与插件产物 |
+| `.github/` | PR 门禁、脚本、测试、分支策略和本流程文档 |
+| `.githooks/` | 本地提交时检查暂存内容 |
+| `.gitattributes` | 保留签名文件原始字节，固定钩子换行 |
+| `.gitignore` | 排除源码、凭据、私钥和生成缓存 |
+| `README.md` | 插件列表与安装说明 |
+
+流程测试统一放在 `.github/tests/`，由 `plugin-gate.yml` 调用。
+
 ## 固定分支
 
 | 用途 | 分支 | 插件 ID |

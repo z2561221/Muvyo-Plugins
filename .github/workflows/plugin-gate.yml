@@ -43,4 +43,4 @@ jobs:
           MV_ADDON_VERIFIER: ${{ runner.temp }}/mv_addon.py
         run: python .github/scripts/check_plugins.py --verify
       - name: Test version, signature and withdrawal failures
-        run: python -m unittest discover -s tests -v
+        run: python -m unittest discover -s .github/tests -v

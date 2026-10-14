@@ -10,6 +10,6 @@
 
 在 Muvyo“第三方插件 → 插件仓库”添加本仓库地址，安装并启用后，
 在“慕慕 AI 助手 → 慕慕形象”选择所需人物。
-分支和 PR 门禁沿用 MoviePilot 插件仓库流程；Muvyo 发布只提交官方签名索引与插件产物，见[发布流程](PUBLISHING-WORKFLOW.md)。
+分支和 PR 门禁沿用 MoviePilot 插件仓库流程；Muvyo 发布只提交官方签名索引与插件产物，见[发布流程](.github/PUBLISHING-WORKFLOW.md)。
 
 仓库包含签名安装产物和流程说明，不包含源码、签名工具、签名凭据、原始视频、生图配置或签名私钥。

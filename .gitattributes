@@ -2,4 +2,4 @@
 /plugins/** -text
 /index.json -text
 /index.json.sig -text
-/.github/vendor/mv_addon.py -text
+/.githooks/* text eol=lf

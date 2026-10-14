@@ -43,8 +43,11 @@ def package_files(folder):
 
 
 def validate_package(entry, folder):
+    return validate_package_files(entry, package_files(folder))
+
+
+def validate_package_files(entry, files):
     require(entry["path"] == f"plugins/{entry['id']}", f"Unexpected package path: {entry['path']}")
-    files = package_files(folder)
     manifest = json.loads(files["manifest.json"])
     signature = json.loads(files["signature.json"])
     version(manifest["version"])
@@ -68,6 +71,15 @@ def validate_package(entry, folder):
     require(set(capabilities) == {"mascot"}, "Only mascot capability is permitted in this repository")
     require(set(capabilities["mascot"]["frames"]) == FRAMES, "Repository standard requires all 14 actions")
     return manifest
+
+
+def validate_distribution_file(name, data):
+    require(not re.search(r"(^|/)(private|src|sources|artifacts|deployment|__pycache__)(/|$)", name)
+            and not re.search(r"(?i)(^|/)(mv_addon\.py|[^/]*signing[^/]*\.json)$", name)
+            and not re.search(r"(?i)\.(pem|key|mp4|pyc|zip|js)$", name),
+            f"Non-distribution/private file is tracked: {name}")
+    require(not re.search(rb"-----BEGIN (?:[A-Z0-9]+ )?PRIVATE KEY-----", data),
+            f"Private key content is tracked: {name}")
 
 
 def validate_transition(current, previous, changed_ids, index_changed, branch, retired):
@@ -141,9 +153,7 @@ def check(root=ROOT, base=None, branch=None, verify=False):
     # No local author credentials, source material or generated build files in this distribution repository.
     tracked = git("ls-files", root=root).splitlines()
     for name in tracked:
-        require(not re.search(r"(^|/)(private|src|sources|artifacts|deployment|__pycache__)(/|$)", name)
-                and not re.search(r"(?i)(muvyo-signing\.json|\.(pem|key|mp4|pyc))$", name),
-                f"Non-distribution/private file is tracked: {name}")
+        validate_distribution_file(name, (root / name).read_bytes())
     if base:
         previous = json.loads(git("show", f"{base}:index.json", root=root))
         paths = git("diff", "--name-only", base, "HEAD", root=root).splitlines()

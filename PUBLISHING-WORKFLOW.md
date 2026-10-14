@@ -9,7 +9,7 @@
 |---|---|---|
 | 正式签名索引与已验收产物 | main | 全部 |
 | 克里斯蒂娜 | worldlinefix/kurisu | z2561221.kurisu-mascot |
-| 洛琪希 | worldlinefix/roxy | z2561221.roxy-mascot（已撤回） |
+| 洛琪希撤回维护 | worldlinefix/roxy | z2561221.roxy-mascot（仅保留本地开发资料） |
 | GitHub 门禁维护 | worldlinefix/release-workflow | — |
 
 插件直接从固定业务分支 PR 到 main，不经过共用 test 分支。main 只允许 PR 通过
@@ -42,6 +42,22 @@ Muvyo 正式仓库只发布 `index.json`、`index.json.sig` 和 `plugins/<插件
 撤回插件时，从索引删除对应条目与 `plugins/<插件ID>/`，递增 sequence 并重签索引。
 此操作阻止后续从仓库安装或更新该插件，但不会远程卸载其他用户已安装的插件；
 已安装设备需由设备管理员自行卸载。
+撤回合并后，将没有独立未合并工作的业务分支快进到已撤回的 main，避免旧分支索引
+继续提供安装。业务分支名与 Git 历史保留；重新上线需要新的签名版本和用户授权。
+
+## 本地提交检查
+
+首次配置本地仓库时，启用 `.githooks/pre-commit`，并指定已核验的 Python 3 解释器：
+
+```powershell
+git config core.hooksPath .githooks
+git config muvyo.pythonPath '<Python 3 解释器绝对路径>'
+```
+
+此钩子需要 PowerShell 7，Python 环境需要 `cryptography`。检查读取 Git 暂存区的
+实际字节，阻止源码、签名凭据、私钥和 ZIP，校验索引签名、插件文件清单与哈希；
+已签名的 PNG/WebP 正常放行。暂存区与工作区不同也不会误用未暂存的内容。
+官方包验签与分支、版本门禁仍由 CI 执行。检查失败应修正暂存内容，不跳过钩子。
 
 ## GitHub 门禁
 
